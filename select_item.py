@@ -3,6 +3,11 @@ from CONFIG import *
 
 
 def choose_item_to_insert(all_items_in_queue):
+    """
+    :param all_items_in_queue: dictionary of items waiting in queue
+    :return: - time it took to get item : 0 if the item was waiting in the queue , or exponential dist. time otherwise
+             - item name to add to system
+    """
     avail_items = [i[0] for i in all_items_in_queue.items() if i[1] > 0]
     if len(avail_items) != 0:
         return 0, avail_items[0]  # currently - a random item
@@ -11,10 +16,3 @@ def choose_item_to_insert(all_items_in_queue):
         print "sleeping "
         return time_to_event(total_lamb), get_random_item_type()
 
-#
-# def calc_total_process_time(item_name):
-#     item_dist = ITEMS_WORK_DIST_DICT[item_name]
-#
-#     delta_work = WORKERS_POWER_DICT[W0][
-#              ] * delta_time
-# items_prod_line[item_number][WORK_UNITS][station_idx] -= delta_work
