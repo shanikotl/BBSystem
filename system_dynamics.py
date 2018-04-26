@@ -4,15 +4,11 @@ from stochasic_arrival import p_event, get_random_item_type
 # update the order of items in the production line:
 # this is done at the end of each cycle:
 def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
-    # update the keys - 0 -> 1
     for idx in range(N_WORKERS)[1:][::-1]:
         items_prod_line[idx] = items_prod_line[idx - 1]
     # add the first item to the production line.. (currently - always I3. :
     items_prod_line[0] = {ITEM_NAME: chosen_item, WORK_UNITS: items_dict[chosen_item][WORK_UNITS][:],
                           WORK_TYPES: items_dict[chosen_item][WORK_TYPES][:]}
-    #     print "after: %s "
-    #     for k in items_prod_line.items():
-    #         print k[0], k[1]['name']
     return items_prod_line
 
 
