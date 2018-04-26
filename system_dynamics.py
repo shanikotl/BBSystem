@@ -1,6 +1,7 @@
 from CONFIG import *
 from stochasic_arrival import p_event, get_random_item_type
 
+
 # update the order of items in the production line:
 # this is done at the end of each cycle:
 def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
@@ -57,24 +58,23 @@ def init_production_line():
         3: {ITEM_NAME: I2, WORK_UNITS: [0, 0, 2, 3], WORK_TYPES: [Q5, Q4, Q1, Q2]},
         4: {ITEM_NAME: I1, WORK_UNITS: [0, 0, 0, 20], WORK_TYPES: [Q1, Q1, Q3, Q2]}
     }
-    workers_order = dict(zip(WORKERS_NAMES, range(len(WORKERS_NAMES))))
-    return workers_prod_line, items_prod_line, workers_order
+    items_in_queue = {I1: 1, I2: 0, I3: 1}
+    return workers_prod_line, items_prod_line, items_in_queue
 
 
-def run_one_cycle(workers_prod_line, items_prod_line, workers_order):
+def run_one_cycle(workers_prod_line, items_prod_line, workers_order=WORKERS_ORDER):
     last_worker_working = True
     total_time = 0
     time_from_prev_event = 0
-    items_in_queue = {I1: 0, I2: 0, I3: 0}
+    items_arrive_in_process = {I1: 0, I2: 0, I3: 0}
     while last_worker_working:
-        delta_time = TIME_DELTA
         # time.sleep(delta_time)
-        total_time += delta_time
-        time_from_prev_event += delta_time
+        total_time += TIME_DELTA
+        time_from_prev_event += TIME_DELTA
         # generate an event, by probability.
         alpha = random.random()
         if alpha <= p_event(time_from_prev_event):
-            items_in_queue[get_random_item_type()] += 1
+            items_arrive_in_process[get_random_item_type()] += 1
             time_from_prev_event = 0
         # print "time from beginning of cycle: %s and workers in line: %s " % (total_time, workers_prod_line)
         for station_idx, station in enumerate(workers_prod_line):
@@ -82,7 +82,7 @@ def run_one_cycle(workers_prod_line, items_prod_line, workers_order):
                 active_worker = station[-1]
                 item_number = workers_order[active_worker]
                 task = items_prod_line[item_number][WORK_TYPES][station_idx]
-                delta_work = WORKERS_POWER_DICT[active_worker][task] * delta_time
+                delta_work = WORKERS_POWER_DICT[active_worker][task] * TIME_DELTA
                 items_prod_line[item_number][WORK_UNITS][station_idx] -= delta_work
                 curr_work_units = items_prod_line[item_number][WORK_UNITS][station_idx]
                 if curr_work_units <= 0:
@@ -96,5 +96,5 @@ def run_one_cycle(workers_prod_line, items_prod_line, workers_order):
                         # worker is moving together with item she is working on.
     #                     print workers_prod_line
     print "total_time of cycle - %s " % total_time
-    print "items arrivied into queue during cycle: %s" % items_in_queue
-    return total_time, items_prod_line, workers_prod_line, items_in_queue
+    #print "items arrivied into queue during cycle: %s" % items_arrive_in_process
+    return total_time, items_prod_line, workers_prod_line, items_arrive_in_process

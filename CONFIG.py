@@ -21,10 +21,10 @@ N_WORKERS = 5
 N_CYCLES = 10
 
 # Poisson arrival of items:
-LAMB1 = 10 # item 1
-LAMB2 = 10 # item 2
-LAMB3 = 10 # item 3
-#  work for 1 unit of time, for each worker.
+LAMB1 = 0.2
+LAMB2 = 0.2
+LAMB3 = 0.2
+#work for 1 unit of time, for each worker.
 
 WORKERS_POWER_DICT = {
     W0: {Q1: 1, Q2: 3, Q3: 1, Q4: 10, Q5: 1},
@@ -41,14 +41,14 @@ ITEMS_WORK_DIST_DICT = {
     I3: {WORK_UNITS: [4, 1, 3, 4], WORK_TYPES: [Q2, Q1, Q1, Q2]}
 }
 
-
+WORKERS_ORDER = dict(zip(WORKERS_NAMES, range(len(WORKERS_NAMES))))
 
 # 3 types of items: "I1", "I2", "I3"
 # 5 workers: "w0", "w1", "w2", "w3", "w4"
 
 
 
-total_lamb = LAMB1 + LAMB2 + LAMB3
+total_lamb = float(LAMB1 + LAMB2 + LAMB3)
 p_lamb1 = LAMB1 / total_lamb
 p_lamb2 = LAMB2 / total_lamb
 p_lamb3 = LAMB3 / total_lamb

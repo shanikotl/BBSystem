@@ -40,26 +40,28 @@ def update_Q(current_state, action, gamma):
 # -------------------------------------------------------------------------------
 # Training
 
-for i in range(100000):
-    current_state = np.random.randint(0, int(Q.shape[0]))
-    available_act = get_available_actions(current_state)
-    action = sample_next_action(available_act)
-    r = update_Q(current_state, action, gamma)
+def train_system():
+    for i in range(10000):
+        current_state = np.random.randint(0, int(Q.shape[0]))
+        available_act = get_available_actions(current_state)
+        action = sample_next_action(available_act)
+        r = update_Q(current_state, action, gamma)
+    # Normalize the "trained" Q matrix
+    print("Trained Q matrix:")
+    print(Q / np.max(Q) * 100)
 
+def run_test():
+    train_system()
+    current_state = 2
+    steps = [current_state]
+    MAX_ITER = 200
+    iter = 0
+    while (current_state != 5) or (iter < MAX_ITER):
+        next_step_index = np.argmax(Q[current_state, ])
+        steps.append(next_step_index)
+        current_state = next_step_index
+        iter += 1
 
-# Normalize the "trained" Q matrix
-print("Trained Q matrix:")
-print(Q / np.max(Q) * 100)
+    print steps
 
-# -------------------------------------------------------------------------------
-# Testing
-
-current_state = 2
-steps = [current_state]
-
-while current_state != 5:
-    next_step_index = np.argmax(Q[current_state, ])
-    steps.append(next_step_index)
-    current_state = next_step_index
-
-print steps
+# run_test()
