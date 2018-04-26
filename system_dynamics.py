@@ -4,6 +4,13 @@ from stochasic_arrival import p_event, get_random_item_type
 # update the order of items in the production line:
 # this is done at the end of each cycle:
 def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
+    """
+    :param items_prod_line: dictionary, of items in the production line, with current left tasks.
+    key = 1 -> worker number 1.
+    :param items_dict: the items work distribution
+    :param chosen_item: what item to add to production line
+    :return: update items_prod_line by changing location of the items in line + adding the new item data.
+    """
     for idx in range(N_WORKERS)[1:][::-1]:
         items_prod_line[idx] = items_prod_line[idx - 1]
     # add the first item to the production line.. (currently - always I3. :
@@ -15,12 +22,10 @@ def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
 def workers_change_bb(workers_prod_line):
     """
     input: workers_prod_line - array of arrays. each array is a station, with names of workers in the station
-    output: workers_prod_line  - after
+    output: workers_prod_line  - following the BB scheme.
     """
-    # TODO - fix this wierd function!
-    station_idx = 0
     idx = 1
-    for station in workers_prod_line[1:]:
+    while idx < len(workers_prod_line):
         station = workers_prod_line[idx]
         if len(station) > 0:
             find_empty_station = True
@@ -79,15 +84,8 @@ def run_one_cycle(workers_prod_line, items_prod_line, workers_order):
                 task = items_prod_line[item_number][WORK_TYPES][station_idx]
                 delta_work = WORKERS_POWER_DICT[active_worker][task] * delta_time
                 items_prod_line[item_number][WORK_UNITS][station_idx] -= delta_work
-                # print items_prod_line[item_number]
-                # print delta_work, task, workers_dict[active_worker][task], active_worker
                 curr_work_units = items_prod_line[item_number][WORK_UNITS][station_idx]
-                #                 if active_worker=="w4":
-                #                     print "work left for the last worker: %s,
-                # of type %s" % (items_prod_line[item_number]['work_units'][station_idx], task)
                 if curr_work_units <= 0:
-                    # print "%s worker finisehd item %s, task %s" % (active_worker, item_number, task)
-                    # print workers_prod_line
                     if (active_worker == LAST_WORKER) & (station_idx == N_STATIONS - 1):
                         last_worker_working = False
                         print "Last worker finished"
