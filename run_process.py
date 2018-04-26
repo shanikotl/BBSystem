@@ -12,7 +12,7 @@ def main():
     all_items_in_queue = {}
     all_processed_items = constract_finished_items_dict()
     while n_inserted_items < N_CYCLES:
-        print "at the begining of cycle, workers are - %s " % workers_prod_line
+        print "at the beginning of cycle, workers are - %s " % workers_prod_line
         # First scenario: 2 workers can't work together in the same station.
         total_time, items_prod_line, workers_prod_line, items_in_queue = run_one_cycle(workers_prod_line,
                                                                                        items_prod_line,

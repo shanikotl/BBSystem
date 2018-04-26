@@ -76,7 +76,7 @@ def run_one_cycle(workers_prod_line, items_prod_line, workers_order):
         if alpha <= p_event(time_from_prev_event):
             items_in_queue[get_random_item_type()] += 1
             time_from_prev_event = 0
-        # print "time from begining of cycle: %s and workers in line: %s " % (total_time, workers_prod_line)
+        # print "time from beginning of cycle: %s and workers in line: %s " % (total_time, workers_prod_line)
         for station_idx, station in enumerate(workers_prod_line):
             if len(station) > 0:
                 active_worker = station[-1]
