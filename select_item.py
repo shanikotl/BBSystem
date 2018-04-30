@@ -1,8 +1,9 @@
 from stochasic_arrival import time_to_event, get_random_item_type
+from mdp import calc_reward_per_state
 from CONFIG import *
 
 
-def choose_item_to_insert(all_items_in_queue):
+def choose_ranodm_item_from_queue(all_items_in_queue):
     """
     :param all_items_in_queue: dictionary of items waiting in queue
     :return: - time it took to get item : 0 if the item was waiting in the queue , or exponential dist. time otherwise

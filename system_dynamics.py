@@ -17,6 +17,8 @@ def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
     # add the first item to the production line.. (currently - always I3. :
     items_prod_line[0] = {ITEM_NAME: chosen_item, WORK_UNITS: items_dict[chosen_item][WORK_UNITS][:],
                           WORK_TYPES: items_dict[chosen_item][WORK_TYPES][:]}
+    for i in items_prod_line.keys():
+        items_prod_line[i][WORK_UNITS] = np.ceil(items_prod_line[i][WORK_UNITS])
     return items_prod_line
 
 

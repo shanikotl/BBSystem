@@ -1,11 +1,14 @@
 from collections import Counter
 from scipy.stats import poisson
 import matplotlib.pyplot as plt
+from collections import defaultdict
 import numpy as np
 import pandas as pd
 import random
 import math
 import time
+import operator
+
 
 ITEMS_NAMES = [I1, I2, I3] = ["I1", "I2", "I3"]
 WORKERS_NAMES = [W0, W1, W2, W3, W4] = ["w0", "w1", "w2", "w3", "w4"]
@@ -15,10 +18,10 @@ WORK_UNITS = "work_units"
 ITEM_NAME = "item_name"
 LAST_WORKER = WORKERS_NAMES[-1]
 
-TIME_DELTA = 0.001
+TIME_DELTA = 0.01
 N_STATIONS = 4
 N_WORKERS = 5
-N_CYCLES = 10
+N_CYCLES = 50
 
 # Poisson arrival of items:
 LAMB1 = 0.2
@@ -36,9 +39,9 @@ WORKERS_POWER_DICT = {
 
 # the work for each item
 ITEMS_WORK_DIST_DICT = {
-    I1: {WORK_UNITS: [2, 3, 1, 20], WORK_TYPES: [Q1, Q1, Q3, Q2]},
-    I2: {WORK_UNITS: [1, 10, 2, 3], WORK_TYPES: [Q5, Q4, Q1, Q2]},
-    I3: {WORK_UNITS: [4, 1, 3, 4], WORK_TYPES: [Q2, Q1, Q1, Q2]}
+    I1: {WORK_UNITS: [2, 3, 11, 20], WORK_TYPES: [Q1, Q1, Q3, Q2]},
+    I2: {WORK_UNITS: [1, 1, 2, 3], WORK_TYPES: [Q5, Q4, Q1, Q2]},
+    I3: {WORK_UNITS: [4, 3, 3, 4], WORK_TYPES: [Q2, Q1, Q1, Q2]}
 }
 
 WORKERS_ORDER = dict(zip(WORKERS_NAMES, range(len(WORKERS_NAMES))))
