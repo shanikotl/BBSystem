@@ -17,6 +17,9 @@ WORK_TYPES = "work_types"
 WORK_UNITS = "work_units"
 ITEM_NAME = "item_name"
 LAST_WORKER = WORKERS_NAMES[-1]
+REWARD = "reward"
+NEXT_STEP = "next_state"
+
 
 TIME_DELTA = 0.01
 N_STATIONS = 4
