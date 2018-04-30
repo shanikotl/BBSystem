@@ -19,7 +19,7 @@ def get_first_state():
     return [workers_prod_line, items_prod_line, all_items_in_queue]
 
 
-def choose_action_move_state(state):
+def choose_action_to_move_greedy(state):
     if len(state.available_items) > 0:
         state.calc_rewards_for_actions()
         # TODO - not sure it's the minimum!!
@@ -30,7 +30,7 @@ def choose_action_move_state(state):
     else:
         t = time_to_event(total_lamb)
         action = get_random_item_type()
-        cycle_time, new_state = calc_reward_per_state(state, action=action)
+        cycle_time, new_state = state.calc_reward_per_state(action=action)
         return cycle_time + t, new_state, action
 
 
