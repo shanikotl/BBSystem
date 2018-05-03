@@ -30,6 +30,7 @@ N_CYCLES = 50
 LAMB1 = 0.2
 LAMB2 = 0.2
 LAMB3 = 0.2
+EPSILON_GREEDY = 0.9
 #work for 1 unit of time, for each worker.
 
 WORKERS_POWER_DICT = {

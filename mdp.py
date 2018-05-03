@@ -19,18 +19,29 @@ def get_first_state():
     return [workers_prod_line, items_prod_line, all_items_in_queue]
 
 
-def choose_action_to_move_greedy(state):
+def choose_action_to_move(state, method="epsilon-greedy"):
     if len(state.available_items) > 0:
         state.calc_rewards_for_actions()
         # TODO - not sure it's the minimum!!
-        greedy_best_action = min(state.rewards_states.iteritems(), key=operator.itemgetter(1))[0]
-        immidiate_reward = state.rewards_states[greedy_best_action][REWARD]
-        new_state = state.rewards_states[greedy_best_action][NEXT_STEP]
-        return immidiate_reward, new_state, greedy_best_action
-    else:
+        if method == "rand":
+            policy_best_action = np.random.choice(state.available_items)
+        elif method == "greedy":
+            policy_best_action = min(state.rewards_states.iteritems(), key=operator.itemgetter(1))[0]
+        else: #
+            r = random.random()
+            if r <= EPSILON_GREEDY:
+                policy_best_action = min(state.rewards_states.iteritems(), key=operator.itemgetter(1))[0]
+            else:
+                policy_best_action = np.random.choice(state.available_items)
+
+        immidiate_reward = state.rewards_states[policy_best_action][REWARD]
+        new_state_arr = state.rewards_states[policy_best_action][NEXT_STEP]
+        return immidiate_reward, new_state_arr, policy_best_action
+    else:  # TODO - not necessary the right thing todo! it might be better to wait for another item..
+        # TODO - to re-think it later..
         t = time_to_event(total_lamb)
         action = get_random_item_type()
-        cycle_time, new_state = state.calc_reward_per_state(action=action)
-        return cycle_time + t, new_state, action
+        cycle_time, new_state_arr = state.calc_reward_per_state(action=action)
+        return cycle_time + t, new_state_arr, action
 
 

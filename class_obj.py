@@ -2,6 +2,7 @@ from CONFIG import *
 from system_dynamics import *
 from utils import *
 
+
 class State(object):
     """A customer of ABC Bank with a checking account. Customers have the
     following properties:

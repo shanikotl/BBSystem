@@ -1,6 +1,6 @@
 from CONFIG import *
 from stochasic_arrival import p_event, get_random_item_type
-
+from utils import constract_finished_items_dict, get_round
 
 # update the order of items in the production line:
 # this is done at the end of each cycle:
@@ -19,6 +19,8 @@ def add_item_to_line(items_prod_line, items_dict, chosen_item=I3):
                           WORK_TYPES: items_dict[chosen_item][WORK_TYPES][:]}
     for i in items_prod_line.keys():
         items_prod_line[i][WORK_UNITS] = np.ceil(items_prod_line[i][WORK_UNITS])
+        #get_round(items_prod_line[i][WORK_UNITS])
+
     return items_prod_line
 
 
@@ -68,7 +70,7 @@ def run_one_cycle(workers_prod_line, items_prod_line, workers_order=WORKERS_ORDE
     last_worker_working = True
     total_time = 0
     time_from_prev_event = 0
-    items_arrive_in_process = {I1: 0, I2: 0, I3: 0}
+    items_arrive_in_process = constract_finished_items_dict()
     while last_worker_working:
         # time.sleep(delta_time)
         total_time += TIME_DELTA
